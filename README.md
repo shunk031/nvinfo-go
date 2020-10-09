@@ -12,6 +12,13 @@ Rewrite of [ikr7/nvinfo](https://github.com/ikr7/nvinfo) with Golang.
 $ nvinfo
 ```
 
+## Installation
+
+Download the binary from [GitHub Releases][release] and drop it in your `$PATH`.
+
+- [Darwin / Mac][release]
+- [Linux][release]
+
 ## License
 
 [MIT](https://github.com/shunk031/nvinfo-go/blob/master/LICENSE)
