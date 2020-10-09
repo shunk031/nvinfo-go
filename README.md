@@ -1,4 +1,4 @@
-# nvinfo
+# nvinfo ![Release](https://github.com/shunk031/nvinfo-go/workflows/Release/badge.svg)
 
 Rewrite of [ikr7/nvinfo](https://github.com/ikr7/nvinfo) with Golang.
 
