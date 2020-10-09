@@ -16,10 +16,15 @@ $ nvinfo
 
 ## Installation
 
-Download the binary from [GitHub Releases][release] and drop it in your `$PATH`.
+Download the binary from [GitHub Releases](https://github.com/shunk031/nvinfo-go/releases/latest) and drop it in your `$PATH`.
 
-- [Darwin / Mac][release]
-- [Linux][release]
+- [Darwin / Mac](https://github.com/shunk031/nvinfo-go/releases/latest)
+- [Linux](https://github.com/shunk031/nvinfo-go/releases/latest)
+
+```sh
+$ wget https://github.com/shunk031/nvinfo-go/releases/download/v0.0.1/nvinfo_linux_x86_64.tar.gz
+$ tar -xvzf nvinfo_linux_x86_64.tar.gz
+```
 
 ## License
 
