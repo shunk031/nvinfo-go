@@ -1,4 +1,6 @@
-# nvinfo [![Release](https://github.com/shunk031/nvinfo-go/workflows/Release/badge.svg)](https://github.com/shunk031/nvinfo-go/actions?query=workflow%3ARelease)
+nvinfo [![Release](https://github.com/shunk031/nvinfo-go/workflows/Release/badge.svg)](https://github.com/shunk031/nvinfo-go/actions?query=workflow%3ARelease)
+========
+
 
 Rewrite of [ikr7/nvinfo](https://github.com/ikr7/nvinfo) with Golang.
 
