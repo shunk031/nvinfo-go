@@ -11,3 +11,7 @@ Rewrite of [ikr7/nvinfo](https://github.com/ikr7/nvinfo) with Golang.
 ```sh
 $ nvinfo
 ```
+
+## License
+
+[MIT](https://github.com/shunk031/nvinfo-go/blob/master/LICENSE)
