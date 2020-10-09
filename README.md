@@ -4,7 +4,7 @@ Rewrite of [ikr7/nvinfo](https://github.com/ikr7/nvinfo) with Golang.
 
 > nvinfo is a simple utility for monitoring your CUDA-enabled GPUs.
 
-![](./github/screenshot.png)
+![](https://github.com/shunk031/nvinfo-go/raw/master/.github/screenshot.png)
 
 ## Usage
 
