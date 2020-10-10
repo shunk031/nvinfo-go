@@ -22,7 +22,7 @@ Download the binary from [GitHub Releases](https://github.com/shunk031/nvinfo-go
 - [Linux](https://github.com/shunk031/nvinfo-go/releases/latest)
 
 ```sh
-$ wget https://github.com/shunk031/nvinfo-go/releases/download/v0.0.1/nvinfo_linux_x86_64.tar.gz
+$ wget https://github.com/shunk031/nvinfo-go/releases/download/v0.0.2/nvinfo_linux_x86_64.tar.gz
 $ tar -xvzf nvinfo_linux_x86_64.tar.gz
 ```
 
