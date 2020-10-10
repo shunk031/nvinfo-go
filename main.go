@@ -207,6 +207,39 @@ func sortByGpuInfoIndex(msg map[string]GpuInfo) []GpuInfo {
 	return gpus
 }
 
+func printWithColor(gpu GpuInfo, processes []Process) {
+	usedMem := gpu.memoryUsed
+	totalMem := gpu.memoryTotal
+	gpuUtil := gpu.utilizationGpu
+	memUtil := usedMem / totalMem
+	isModerate := false
+	isHigh := float32(gpuUtil) >= gpuModerateRatio || float32(memUtil) >= memModerateRatio
+	if !isHigh {
+		isModerate = float32(gpuUtil) >= gpuFreeRatio || float32(memUtil) >= memFreeRatio
+	}
+
+	colorFormat := "| %3d %22s | %3d  | %5d / %5d MiB | %s |"
+	var auroraFormat aurora.Value
+	if isHigh {
+		auroraFormat = aurora.Red(colorFormat)
+	} else if isModerate {
+		auroraFormat = aurora.Yellow(colorFormat)
+	} else {
+		auroraFormat = aurora.Green(colorFormat)
+	}
+
+	output := aurora.Sprintf(
+		auroraFormat,
+		gpu.index,
+		gpu.name,
+		gpu.utilizationGpu,
+		gpu.memoryUsed,
+		gpu.memoryTotal,
+		gpuProcessExists(gpu, processes))
+	fmt.Println(output)
+
+}
+
 func main() {
 	gpus := RetrieveGpus()
 	processes := RetrieveProcesses()
@@ -219,37 +252,7 @@ func main() {
 
 	sortedGpus := sortByGpuInfoIndex(gpus)
 	for _, gpu := range sortedGpus {
-
-		usedMem := gpu.memoryUsed
-		totalMem := gpu.memoryTotal
-		gpuUtil := gpu.utilizationGpu
-		memUtil := usedMem / totalMem
-
-		isModerate := false
-		isHigh := float32(gpuUtil) >= gpuModerateRatio || float32(memUtil) >= memModerateRatio
-		if !isHigh {
-			isModerate = float32(gpuUtil) >= gpuFreeRatio || float32(memUtil) >= memFreeRatio
-		}
-
-		colorFormat := "| %3d %22s | %3d  | %5d / %5d MiB | %s |"
-		var auroraFormat aurora.Value
-		if isHigh {
-			auroraFormat = aurora.Red(colorFormat)
-		} else if isModerate {
-			auroraFormat = aurora.Yellow(colorFormat)
-		} else {
-			auroraFormat = aurora.Green(colorFormat)
-		}
-
-		output := aurora.Sprintf(
-			auroraFormat,
-			gpu.index,
-			gpu.name,
-			gpu.utilizationGpu,
-			gpu.memoryUsed,
-			gpu.memoryTotal,
-			gpuProcessExists(gpu, processes))
-		fmt.Println(output)
+		printWithColor(gpu, processes)
 	}
 	fmt.Println("|=================================================================|")
 
