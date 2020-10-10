@@ -179,24 +179,46 @@ func printProcesses(processes []Process, gpus map[string]GpuInfo) string {
 	return strings.Join(outputs, "\n")
 }
 
+func printWarnPersistanceMode(gpus map[string]GpuInfo) {
+	for k := range gpus {
+		gpu := gpus[k]
+		if !gpu.persistanceMode {
+			fmt.Println("Consider enabling persistence mode on your GPU(s) for faster response.")
+			fmt.Println("For more information: https://docs.nvidia.com/deploy/driver-persistence/")
+			break
+		}
+	}
+}
+
+func sortByGpuInfoIndex(msg map[string]GpuInfo) []GpuInfo {
+	mis := map[int]string{}
+	miskeys := []int{}
+	for k, v := range msg {
+		mis[v.index] = k
+		miskeys = append(miskeys, v.index)
+	}
+	sort.Ints(miskeys)
+
+	gpus := make([]GpuInfo, 0, len(miskeys))
+	for _, v := range miskeys {
+		gpuUUID := mis[v]
+		gpus = append(gpus, msg[gpuUUID])
+	}
+	return gpus
+}
+
 func main() {
 	gpus := RetrieveGpus()
 	processes := RetrieveProcesses()
+
+	printWarnPersistanceMode(gpus)
 
 	fmt.Println("+----------------------------+------+-------------------+---------+")
 	fmt.Println("| GPU                        | %GPU | VRAM              | PROCESS |")
 	fmt.Println("|----------------------------+------+-------------------+---------|")
 
-	hack := map[int]string{}
-	hackkeys := []int{}
-	for k, v := range gpus {
-		hack[v.index] = k
-		hackkeys = append(hackkeys, v.index)
-	}
-	sort.Ints(hackkeys)
-	for _, v := range hackkeys {
-		gpuUUID := hack[v]
-		gpu := gpus[gpuUUID]
+	sortedGpus := sortByGpuInfoIndex(gpus)
+	for _, gpu := range sortedGpus {
 
 		usedMem := gpu.memoryUsed
 		totalMem := gpu.memoryTotal
@@ -241,5 +263,4 @@ func main() {
 	fmt.Println("|-----+------------+---------+-----------+------------------------|")
 	fmt.Println(printProcesses(processes, gpus))
 	fmt.Println("+-----+------------+---------+-----------+------------------------+")
-
 }
