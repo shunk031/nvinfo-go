@@ -218,26 +218,24 @@ func printWithColor(gpu GpuInfo, processes []Process) {
 		isModerate = float32(gpuUtil) >= gpuFreeRatio || float32(memUtil) >= memFreeRatio
 	}
 
-	colorFormat := "| %3d %22s | %3d  | %5d / %5d MiB | %s |"
-	var auroraFormat aurora.Value
+	var au func(interface{}) aurora.Value
 	if isHigh {
-		auroraFormat = aurora.Red(colorFormat)
+		au = aurora.Red
 	} else if isModerate {
-		auroraFormat = aurora.Yellow(colorFormat)
+		au = aurora.Yellow
 	} else {
-		auroraFormat = aurora.Green(colorFormat)
+		au = aurora.Green
 	}
 
-	output := aurora.Sprintf(
-		auroraFormat,
-		gpu.index,
-		gpu.name,
-		gpu.utilizationGpu,
-		gpu.memoryUsed,
-		gpu.memoryTotal,
-		gpuProcessExists(gpu, processes))
-	fmt.Println(output)
-
+	colorFormat := "| %3d %22s | %3d  | %s | %s |\n"
+	fmt.Printf(
+		colorFormat,
+		au(gpu.index),
+		au(gpu.name),
+		au(gpu.utilizationGpu),
+		au(fmt.Sprintf("%5d / %5d MiB", gpu.memoryUsed, gpu.memoryTotal)),
+		au(gpuProcessExists(gpu, processes)),
+	)
 }
 
 func main() {
